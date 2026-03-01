@@ -1,7 +1,5 @@
 import org.apache.spark.sql.SparkSession
 import loaders.TweetsLoader
-import loaders.FinancialsLoader
-import loaders.Covid19Loader
 
 object App {  
 
@@ -14,20 +12,22 @@ object App {
 
     spark.sparkContext.setLogLevel("ERROR") 
 
-    val tweets = TweetsLoader.loadGrammysTweets(spark)
-    tweets.show()
-    println(s"Number of rows: ${tweets.count()}")
-    tweets.printSchema()
+    val tweetsLoader = new TweetsLoader(spark)
+    
+    val grammysTweets = tweetsLoader.loadGrammysTweets()
+    grammysTweets.show()
+    println(s"Number of rows: ${grammysTweets.count()}")
+    grammysTweets.printSchema()
 
-    val financials = FinancialsLoader.loadFinancials(spark)
-    financials.show()
-    println(s"Number of rows: ${financials.count()}")
-    financials.printSchema()
+    val financialsTweets = tweetsLoader.loadFinancialsTweets()
+    financialsTweets.show()
+    println(s"Number of rows: ${financialsTweets.count()}")
+    financialsTweets.printSchema()
 
-    val covid19 = Covid19Loader.loadCovid19(spark)
-    covid19.show()
-    println(s"Number of rows: ${covid19.count()}")
-    covid19.printSchema()
+    val covid19Tweets = tweetsLoader.loadCovid19Tweets()
+    covid19Tweets.show()
+    println(s"Number of rows: ${covid19Tweets.count()}")
+    covid19Tweets.printSchema()
 
     spark.stop()
 
