@@ -1,0 +1,9 @@
+/.bsp/
+target/
+.metals/
+.bloop/
+.bsp/
+.cursorrules
+.vscode/
+
+project/
