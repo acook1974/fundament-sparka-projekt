@@ -39,6 +39,22 @@ object App {
       .orderBy(desc("count"))
       .show(numRows = sourceCount.count().toInt, truncate = false)
 
+    // aktywność użytkowników
+    val topAuthors: DataFrame = tweetsAnalyzer.calculateTopAuthors(cleanedTweetsDF, topN = 20)
+    topAuthors.show(numRows = topAuthors.count().toInt, truncate = false)
+
+    // top 10 użytkowników z największą aktywnością w zależności od wieku konta
+    val userAgeVsActivity: DataFrame = tweetsAnalyzer.calculateUserAgeVsActivity(cleanedTweetsDF)
+    userAgeVsActivity
+      .orderBy(desc("avg_account_age_days"))
+      .show(numRows = 10, truncate = false)
+
+    // top 10 użytkowników z największą liczbą tweetów
+    val userTweetsCountVsActivity: DataFrame = tweetsAnalyzer.calculateUserAgeVsActivity(cleanedTweetsDF)
+    userTweetsCountVsActivity
+      .orderBy(desc("tweets_count"))
+      .show(numRows = 10, truncate = false)
+
 
     
     // val grammysTweets = tweetsLoader.loadGrammysTweets()
